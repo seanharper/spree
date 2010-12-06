@@ -16,7 +16,7 @@ class Gateway::AuthorizeNetCim < Gateway
   end
 
   def purchase(amount, creditcard, gateway_options)
-    create_transaction(amount, creditcard, :auth_capture)
+    create_transaction(amount, creditcard, :auth_capture,gateway_options)
   end
 
   def capture(authorization, creditcard, gateway_options)

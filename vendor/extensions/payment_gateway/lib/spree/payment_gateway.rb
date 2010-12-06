@@ -1,6 +1,6 @@
 module Spree
   module PaymentGateway
-
+     #this is sean's fixed version
     def self.included(base)
       base.named_scope :with_payment_profile, :conditions => "gateway_customer_profile_id IS NOT NULL"
     end
@@ -48,6 +48,7 @@ module Spree
 
     def purchase(amount, payment)
       #combined Authorize and Capture that gets processed by the ActiveMerchant gateway as one single transaction.
+      
       response = payment_gateway.purchase((amount * 100).round, self, gateway_options(payment))
 
       gateway_error(response) unless response.success?
@@ -159,7 +160,10 @@ module Spree
 
     def gateway_options(payment)
       options = {:billing_address  => generate_address_hash(payment.order.bill_address),
-                 :shipping_address => generate_address_hash(payment.order.shipment.address)}
+                 :shipping_address => generate_address_hash(payment.order.shipment.address),
+                :order => {:invoice_number => payment.order.numer, :description => payment.order.description }
+                :tax => {:amount => payment.order.tax_total.to_s, :name => "state sales tax"},
+                 :shipping => {:amount => payment.order.ship_total.to_s, :name => "shipping"}}
       options.merge minimal_gateway_options(payment)
     end
 
@@ -177,9 +181,6 @@ module Spree
       {:email    => payment.order.email,
        :customer => payment.order.email,
        :ip       => payment.order.ip_address,
-       :order_id => payment.order.number,
-       :shipping => payment.order.ship_total * 100,
-       :tax      => payment.order.tax_total * 100,
        :subtotal => payment.order.item_total * 100}
     end
 
