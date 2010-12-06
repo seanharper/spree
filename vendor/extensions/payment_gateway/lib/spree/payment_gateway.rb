@@ -161,7 +161,7 @@ module Spree
     def gateway_options(payment)
       options = {:billing_address  => generate_address_hash(payment.order.bill_address),
                  :shipping_address => generate_address_hash(payment.order.shipment.address),
-                :order => {:invoice_number => payment.order.numer, :description => payment.order.description }
+                :order => {:invoice_number => payment.order.numer, :description => payment.order.description },
                 :tax => {:amount => payment.order.tax_total.to_s, :name => "state sales tax"},
                  :shipping => {:amount => payment.order.ship_total.to_s, :name => "shipping"}}
       options.merge minimal_gateway_options(payment)
