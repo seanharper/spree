@@ -1,7 +1,7 @@
 module ActiveMerchant #:nodoc:
   module Billing #:nodoc:
     # ==== Customer Information Manager (CIM)
-    #
+    #This is sean's fixed version
     # The Authorize.Net Customer Information Manager (CIM) is an optional additional service that allows you to store sensitive payment information on
     # Authorize.Net's servers, simplifying payments for returning customers and recurring transactions. It can also help with Payment Card Industry (PCI)
     # Data Security Standard compliance, since customer data is no longer stored locally.
@@ -443,7 +443,6 @@ module ActiveMerchant #:nodoc:
         unless CIM_ACTIONS.include?(action)
           raise StandardError, "Invalid Customer Information Manager Action: #{action}"
         end
-
         xml = Builder::XmlMarkup.new(:indent => 2)
         xml.instruct!(:xml, :version => '1.0', :encoding => 'utf-8')
         xml.tag!("#{CIM_ACTIONS[action]}Request", :xmlns => AUTHORIZE_NET_CIM_NAMESPACE) do
@@ -592,7 +591,6 @@ module ActiveMerchant #:nodoc:
         unless CIM_TRANSACTION_TYPES.include?(transaction[:type])
           raise StandardError, "Invalid Customer Information Manager Transaction Type: #{transaction[:type]}"
         end
-
         xml.tag!('transaction') do
           xml.tag!(CIM_TRANSACTION_TYPES[transaction[:type]]) do
             # The amount to be billed to the customer
