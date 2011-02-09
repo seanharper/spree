@@ -27,10 +27,10 @@ class AppConfiguration < Configuration
   preference :track_inventory_levels, :boolean, :default => true #
   preference :show_descendents, :boolean, :default => true
   preference :show_zero_stock_products, :boolean, :default => true
-  preference :orders_per_page, :integer, :default => 15
-  preference :admin_products_per_page, :integer, :default => 10
-  preference :admin_pgroup_preview_size, :integer, :default => 10
-  preference :products_per_page, :integer, :default => 10
+  preference :orders_per_page, :integer, :default => 50
+  preference :admin_products_per_page, :integer, :default => 100
+  preference :admin_pgroup_preview_size, :integer, :default => 100
+  preference :products_per_page, :integer, :default => 100
   preference :logo, :string, :default => '/images/admin/bg/spree_50.png'
   preference :stylesheets, :string, :default => 'screen' # Comma separate multiple stylesheets, e.g. 'screen,mystyle'
   preference :admin_interface_logo, :string, :default => "spree/spree.jpg"
