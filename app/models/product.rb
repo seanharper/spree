@@ -25,7 +25,8 @@ class Product < ActiveRecord::Base
   has_many :images, :as => :viewable, :order => :position, :dependent => :destroy
   has_and_belongs_to_many :product_groups
   belongs_to :tax_category
-  has_and_belongs_to_many :taxons
+  #has_and_belongs_to_many :taxons
+  has_many :taxons, :through => :products_taxons
   belongs_to :shipping_category
 
   has_one :master,

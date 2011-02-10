@@ -3,6 +3,7 @@ class Taxon < ActiveRecord::Base
 
   belongs_to :taxonomy
   has_and_belongs_to_many :products
+  has_many :products, :through => :products_taxons
   before_create :set_permalink
   before_save :ensure_trailing_slash
 
