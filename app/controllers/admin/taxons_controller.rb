@@ -31,7 +31,6 @@ class Admin::TaxonsController < Admin::BaseController
       format.html
       format.js {render :layout => false}
     end
-
   end
 
   def remove

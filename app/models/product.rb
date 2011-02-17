@@ -26,9 +26,9 @@ class Product < ActiveRecord::Base
   has_and_belongs_to_many :product_groups
   belongs_to :tax_category
   #has_and_belongs_to_many :taxons
-  has_many :taxons, :through => :products_taxons
+  has_many :products_taxon
+  has_many :taxons, :through => :products_taxon, :uniq => true
   belongs_to :shipping_category
-
   has_one :master,
     :class_name => 'Variant',
     :conditions => ["variants.is_master = ? AND variants.deleted_at IS NULL", true]
