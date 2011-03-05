@@ -75,7 +75,11 @@ class UserSessionsController < Spree::BaseController
       else
         respond_to do |format|
           format.html {
-            flash.now[:error] = t("login_failed")
+            if(@user_session.errors["login"].size > 0)
+              flash.now[:error] = "Invalid Login: We do not have your email address on file. Are you sure you already have an account with TSS-Radio?  If not, please create a new account or checkout as a Guest."
+            else
+              flash.now[:error] = "Invalid Login: We do have your email address on file but the password you entered does not match."
+            end
             render :action => :new
           }
           format.js { render :json => false }
@@ -84,6 +88,7 @@ class UserSessionsController < Spree::BaseController
     end
     redirect_back_or_default(products_path) unless performed?
   end
+
 
   def create_user(data)
     @user = User.new(data)
