@@ -21,7 +21,7 @@ class Checkout < ActiveRecord::Base
   attr_accessor :current_validation_fields
 
   validates_presence_of :order_id, :shipping_method_id
-  validates_format_of :email, :with => /^\S+@\S+\.\S+$/
+  validates_format_of :email, :with => /^\S+@\S+\.\S+$/, :message => "Please enter a valid email address in format xxxx@yyyyy.com"
 
   validation_group :register, :fields => ["email"]
 
