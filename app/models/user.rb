@@ -11,16 +11,16 @@ class User < ActiveRecord::Base
   extend AuthlogicOpenid::ActsAsAuthentic::Config
   include AuthlogicOpenid::ActsAsAuthentic::Methods if User.table_exists?
 
-  acts_as_authentic do |c|
-    c.transition_from_restful_authentication = true
+  ##acts_as_authentic do |c|
+    #c.transition_from_restful_authentication = true
     #AuthLogic defaults
     #c.validate_email_field = true
-    #c.validates_length_of_email_field_options = {:within => 6..100}
+    #c.merge_validates_length_of_email_field_options = {:within => 6..100, :message => "Email address is too short."}
     #c.validates_format_of_email_field_options = {:with => email_regex, :message => I18n.t(‘error_messages.email_invalid’, :default => “should look like an email address.”)}
     #c.validate_password_field = true
-    #c.validates_length_of_password_field_options = {:minimum => 4, :if => :require_password?}
+    #c.merge_validates_length_of_password_field_options = {:minimum => 4, :if => :require_password?}
     #for more defaults check the AuthLogic documentation
-  end
+  #end
   
   openid_required_fields [:email]
   openid_optional_fields [:nickname]

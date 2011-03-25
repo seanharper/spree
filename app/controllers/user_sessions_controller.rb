@@ -77,7 +77,9 @@ class UserSessionsController < Spree::BaseController
       else
         respond_to do |format|
           format.html {
-            if(@user_session.errors["login"].size > 0)
+            if(@user_session.errors["password"]==["cannot be blank"])
+              flash.now[:error] = "Invalid Login: Password cannot be blank."
+            elsif(@user_session.errors["login"].size > 0)
               flash.now[:error] = "Invalid Login: We do not have your email address on file. Are you sure you already have an account with TSS-Radio?  If not, please create a new account or checkout as a Guest."
             else
               flash.now[:error] = "Invalid Login: We do have your email address on file but the password you entered does not match."
