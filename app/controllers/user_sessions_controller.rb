@@ -3,9 +3,11 @@ class UserSessionsController < Spree::BaseController
   before_filter :require_user, :only => :destroy
   ssl_required :new, :create, :destroy, :update
   ssl_allowed :login_bar
-
+  helper :users
+  
   def new
     @user_session = UserSession.new
+    @user = User.new
   end
 
   def create
@@ -80,6 +82,9 @@ class UserSessionsController < Spree::BaseController
             else
               flash.now[:error] = "Invalid Login: We do have your email address on file but the password you entered does not match."
             end
+            @order = Order.find(session[:order_id])
+            @checkout = @order.checkout
+            @user = User.new
             render :action => :new
           }
           format.js { render :json => false }

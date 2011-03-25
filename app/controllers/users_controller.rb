@@ -21,6 +21,8 @@ class UsersController < Spree::BaseController
 	        format.js { render :js => true.to_json }
 	      end
 	    else
+	      @order = Order.find(session[:order_id])
+    	  @checkout = @order.checkout
 	      respond_to do |format|
 	        format.html { render :action => :new }
 	        format.js { render :js => @user.errors.to_json }

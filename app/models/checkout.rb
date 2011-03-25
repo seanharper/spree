@@ -23,7 +23,7 @@ class Checkout < ActiveRecord::Base
   validates_presence_of :order_id, :shipping_method_id
   validates_format_of :email, :with => /^\S+@\S+\.\S+$/, :message => "Please enter a valid email address in format xxxx@yyyyy.com"
 
-  validation_group :register, :fields => ["email"]
+  validation_group :register, :fields => ["email"], :message => "Please enter your email address."
 
   validation_group :address, :fields=>["bill_address.firstname", "bill_address.lastname", "bill_address.phone",
                                        "bill_address.zipcode", "bill_address.state", "bill_address.lastname",
