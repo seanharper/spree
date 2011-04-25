@@ -20,7 +20,11 @@ class Checkout < ActiveRecord::Base
   attr_accessor :use_billing
   attr_accessor :current_validation_fields
 
-  validates_presence_of :order_id, :shipping_method_id
+  validates_presence_of :order_id
+  
+  validates_presence_of :shipping_method_id, :if => "!order.only_gc?"
+
+  
   validates_format_of :email, :with => /^\S+@\S+\.\S+$/, :message => "Please enter a valid email address in format xxxx@yyyyy.com"
 
   validation_group :register, :fields => ["email"], :message => "Please enter your email address."
@@ -91,12 +95,16 @@ class Checkout < ActiveRecord::Base
   def check_addresses_on_duplication
     if order.user
       if order.user.ship_address.nil?
-        order.user.update_attribute(:ship_address, ship_address)
+        #BA Change this to update the ship/bill ids for user 04.22.2011
+        #order.user.update_attribute(:ship_address, ship_address)
+        order.user.update_attribute(:ship_address_id, ship_address_id)
       elsif ship_address.same_as?(order.user.ship_address)
         #self.ship_address = order.user.ship_address
       end
       if order.user.bill_address.nil?
-        order.user.update_attribute(:bill_address, bill_address)
+        #BA Change this to update the ship/bill ids for user 04.22.2011
+        #order.user.update_attribute(:bill_address, bill_address)
+        order.user.update_attribute(:bill_address_id, bill_address_id)
       elsif bill_address.same_as?(order.user.bill_address)
         #self.bill_address = order.user.bill_address
       end
@@ -116,6 +124,7 @@ class Checkout < ActiveRecord::Base
   def complete_order
     order.complete!
     order.pay! if Spree::Config[:auto_capture]
+    update_user_billing_shipping
   end
 
   def process_payment
@@ -143,5 +152,12 @@ class Checkout < ActiveRecord::Base
       order.shipment.save
     end
   end
+  
+  def update_user_billing_shipping
+      order.user.ship_address_id = ship_address_id unless ship_address_id.nil?
+      order.user.bill_address_id = bill_address_id unless bill_address_id.nil?
+      order.user.save
+  end
+  
 
 end
